@@ -1,6 +1,6 @@
-# Workbook Notes — Supplementary Material for the 12 Sheets
+# Workbook Notes — Supplementary Material for the 21 Sheets
 
-The 12 CSV files in this folder are flat tables so that GitHub renders them cleanly.
+The 21 CSV files in this folder are flat tables so that GitHub renders them cleanly.
 This file restores the explanatory content removed in the restructure: section
 descriptions, reference tables, supplementary rules, and usage notes.
 
