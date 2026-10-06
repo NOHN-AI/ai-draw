@@ -33,15 +33,17 @@ Exclusion: affirmative writing first (the dress sentence naturally excludes red 
 
 **Fix round**: make the mole smaller and fainter; keep the dress mint green, not blue.
 
-## 3. Mixed Tag + parameter flow (Midjourney v6 / Niji v6)
+## 3. Mixed Tag + parameter flow (Midjourney v8.2 / Niji 7)
 
 > Core anchors within the first 20 tokens; the mid-section stacks shot scale and lighting; append CLI parameters uniformly at the end.
 
 ```
-A 16yo girl Nanwang, faint brown mole under left eye, single white daisy in hair, light mint green plain dress, black waist-length straight hair, rule of thirds composition, 85mm portrait shot, side-backlighting, golden hour glow, spring garden, shallow depth of field --ar 3:4 --cref https://example.com/nanwang.png --cw 100 --style cute --niji 6
+A 16yo girl Nanwang, faint brown mole under left eye, single white daisy in hair, light mint green plain dress, black waist-length straight hair, rule of thirds composition, 85mm portrait shot, side-backlighting, golden hour glow, spring garden, shallow depth of field --ar 3:4 --niji 7
 ```
 
 `--no` filters only the 4-5 highest-risk words: `--no heavy makeup, red dress, short hair, dark lighting`
+
+> ⚠️ `--cref` / `--cw` have been removed above v6 — they are dead on v7/v8. Use `--oref`/`--ow` on v7 or the v8 Edit Model (`--edit` / attach up to 4 references on the web). `--niji 7` must be written explicitly because Niji has no V8 counterpart: without it the V8.2 default renders the anime request instead.
 
 ## 4. Weighted Tag flow (Stable Diffusion 1.5 / XL / SD3)
 
@@ -61,5 +63,5 @@ Negative Prompt box: `(deformed hands, bad anatomy, extra fingers, missing finge
 |---|---|
 | Natural-language flow | Affirmative writing first; negation as fallback |
 | Conversational | No negative-word concept; exclude directly in conversation |
-| MJ | `--no` filters only the highest-risk words; the rest is covered by `--cref` and the positive description |
+| MJ | `--no` filters only the highest-risk words; the rest is covered by the reference method (`--oref` on v7 / Edit Model on v8) and the positive description |
 | SD | Fill the separate Negative Prompt box |

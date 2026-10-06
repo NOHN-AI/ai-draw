@@ -85,7 +85,7 @@ v2.3（相对 v2.2）新增：国内 API 族语法流、DALL·E 3 弃用说明�
 - 负面提示词：MJ 用 `--no` 加 4-6 个短词；SD 用 Negative Prompt 框；
   Flux/DALL·E/GPT-4o/Gemini 无负面框 → 改用肯定式写法，否定式作为兜底；
   国内 API 模型：负面提示词支持情况不一，需查官方文档。
-- 参考图：MJ `--cref`；SD LoRA；Flux Kontext/Redux；GPT-4o/Gemini 原生；
+- 参考图：MJ `--cref` 仅 v6 有效（v7 用 `--oref`/`--ow`，v8 用 Edit Model `--edit`）；SD LoRA/IP-Adapter；FLUX.2 多参考图 + Edit；Gemini 3 Pro Image 原生（上限 14 张）；
   DALL·E 3 无（对多图系列已弃用）→ 以描述主导；
   国内 API 模型：能力以官方文档为准（见矩阵表）。
 - 锚点复用：自然语言模型必须逐图逐字复用锚点句；

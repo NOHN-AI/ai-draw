@@ -44,7 +44,7 @@ Natural-language models have no numeric weights; express them via this table.
 |---|---|
 | Weight syntax | `(word:1.3)` works only on SD; MJ relies on token position and repetition; natural-language models forbid bracket weights — rely on narrative structure |
 | Negative prompts | MJ `--no` limited to 4-6 short words; SD uses the Negative Prompt box; Flux/DALL-E/GPT-4o/Gemini have no negative box → write affirmatively first, negate as fallback; domestic API negative-word support per official docs |
-| Reference images | MJ `--cref`; SD LoRA; Flux Kontext/Redux; GPT-4o/Gemini native reference images; DALL-E 3 has none → description-led, recommended deprecated; domestic API reference capabilities per official docs — see the Reference Image Capability Matrix |
+| Reference images | MJ `--cref` is v6-only / `--oref` on v7 / Edit Model (`--edit`) on v8; SD LoRA/IP-Adapter; FLUX.2 multi-reference + Edit; Gemini 3 Pro Image native (up to 14 refs); DALL-E 3 has none → description-led, recommended deprecated; domestic API reference capabilities per official docs — see the Reference Image Capability Matrix |
 | Anchor reuse | Natural-language models: anchor sentences must be reused verbatim across images; synonym rewriting forbidden (e.g. "mole" must not become "tache" or "little spot") |
 
 ### Section ⑥ — Multi-character scenes
@@ -129,8 +129,8 @@ Natural-language models realize the "hard anchor" as an independent sentence-ini
 
 | Field | Description | Example | Notes |
 |---|---|---|---|
-| Recommended model | Choose the best model by character style | Niji V6 (anime characters) | Use SDXL / Flux for realistic styles |
-| Model-specific parameters | Special parameters of the model | Niji V6: --style cute --niji 6 | — |
+| Recommended model | Choose the best model by character style | Niji 7 (anime characters) | Use SDXL / FLUX.2 for realistic styles |
+| Model-specific parameters | Special parameters of the model | Niji 7: --niji 7 | ⚠️ Niji has NO V8 counterpart — always write `--niji 7` explicitly, otherwise the V8.2 default silently takes over. `--style cute` is Niji 5-only, do not use |
 | --ar aspect ratio | Must match the standard ratio in Composition & Shots | --ar 3:4 | Avatar 1:1 / storyboard 16:9 |
 | --stylize | Artistic strength; higher drifts the features more | --s 100 (medium-low) | Use ≤100 for character consistency |
 | --chaos | Composition variation; keep low when reproducibility is needed | --chaos 5 | 30-50 for exploring compositions |
@@ -141,7 +141,7 @@ Natural-language models realize the "hard anchor" as an independent sentence-ini
 | Field | Description | Example | Notes |
 |---|---|---|---|
 | Reference image URL | Baseline image of the character | https://.../nanwang_v12.png | The closer to the target version, the better |
-| --cref (MJ character reference) | Core character-consistency parameter; pair with --cw to control strength | --cref URL --cw 100 | 80-100 recommended for portraits |
+| --oref / --edit (MJ character reference) | `--cref`+`--cw` are v6-ONLY and dead above v6; v7 uses `--oref URL --ow 80-100`; v8 uses the Edit Model (`--edit URL1 URL2` or attach up to 4 on the web) | `--oref URL --ow 100` (v7) / `--edit URL` (v8) | Pick the row that matches your version; do not mix |
 | --sref (style reference) | Style consistency parameter | --sref URL | Use when the visual style drifts |
 | Flux Kontext/Redux | Native reference-image solution for the natural-language flow | Flux Kontext + baseline image | Kontext for reference / Redux for variants |
 | Conversational model reference | GPT-4o / Gemini upload the first image or previous version as the anchor | First image as anchor; fix via conversation | Fix failures directly in conversation |
@@ -186,7 +186,7 @@ Head-to-body ratios must not be mixed across a character's multiple versions (te
 
 ### Cross-image consistency strength ranking (weak → strong)
 
-**DALL-E 3 < Flux < GPT-4o/Gemini (reference) < SD (LoRA) < MJ/Niji (--cref)**
+**DALL-E 3 < FLUX.2 < Gemini 3 Pro Image (14 refs) < Seedream 5.0 (14 refs) < SD (LoRA) < MJ v7 (`--oref`) / MJ v8 (Edit Model)**
 
 Strength correlates with external anchoring tools; models with weak tools must compensate with verbatim anchor-sentence reuse.
 

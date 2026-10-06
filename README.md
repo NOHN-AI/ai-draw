@@ -108,14 +108,18 @@ position/precision (see Instructions sheet).
 
 ## Cross-model syntax red lines
 
-- Weight syntax `(word:1.3)` works only in SD; MJ relies on token position & repetition;
+- Weight syntax `(word:1.3)` works only in SD; MJ relies on token position & repetition
+  (`::` multi-prompt weighting ended at v6.1);
   natural-language models forbid bracket weights.
-- Negative prompts: MJ `--no` 4-6 short words; SD Negative Prompt box;
-  Flux/DALL·E/GPT-4o/Gemini have no negative box → write affirmatively, negate as fallback;
+- Negative prompts: MJ `--no` 4-6 short words; SD Negative Prompt box (weight the negatives too);
+  FLUX.2 and Gemini 3 Pro Image have **no negative prompting at all** → write affirmatively only;
   domestic API models: negative-prompt support varies, check official docs.
-- Reference images: MJ `--cref`; SD LoRA; Flux Kontext/Redux; GPT-4o/Gemini native;
+- Reference images: MJ `--cref` is **v6-only** (v7 uses `--oref`/`--ow`, v8 uses the Edit Model);
+  SD LoRA/IP-Adapter; FLUX.2 multi-reference + Edit; Gemini 3 Pro Image native (up to 14 refs);
   DALL·E 3 none (deprecated for multi-image series) → description-led;
   domestic API models: capability per official docs (see matrix).
+- MJ version: **Niji 7 has no V8 counterpart** — write `--niji 7` explicitly or the V8.2 default
+  silently renders the anime request instead.
 - Anchor reuse: natural-language models must reuse anchor sentences verbatim across images;
   no synonym substitution (e.g. "tear mole" must not become "spot" or "small mole").
 
