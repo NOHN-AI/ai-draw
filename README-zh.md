@@ -28,6 +28,76 @@ v2.4（相对 v2.3）新增：姿势–情绪对照表（构图与镜头中的 D
 
 v2.3（相对 v2.2）新增：国内 API 族语法流、DALL·E 3 弃用说明，以及诚实的"可适配"表述。
 
+## ✦ 系统架构（人话版）
+
+> **一句话：** 这个仓库是一个 **AI 绘画提示词的操控台**——21 张表格，把「祈祷这张脸别崩」变成一份可重复执行的清单。
+
+```mermaid
+flowchart TB
+    subgraph DATA["📚 数据标准 —— 21 张 CSV 表（唯一事实来源）"]
+        D1["角色锚点"]
+        D2["构图与镜头"]
+        D3["模型与参考"]
+        D4["负面词库 · 校验清单"]
+        D5["分镜 · 气泡 · 时序一致性"]
+    end
+
+    subgraph FLOW["🛠️ 五步工作流"]
+        S1["1 · 锚定角色"]
+        S2["2 · 选模型 + 参考策略"]
+        S3["3 · 拼装提示词"]
+        S4["4 · P0 / P1 / P2 校验"]
+        S5["5 · 记录迭代"]
+    end
+
+    subgraph FAM["🎨 五种提示词语法家族"]
+        M1["自然语言流<br/>Flux · DALL·E 3 · SD3"]
+        M2["对话式<br/>GPT-4o · Gemini"]
+        M3["Midjourney / Niji"]
+        M4["Stable Diffusion"]
+        M5["国内 API<br/>即梦 · 可灵 · 豆包 · 通义万相"]
+    end
+
+    RESULT["🖼️ 跨图片 / 视频 / 3D 都稳定的同一角色"]
+
+    D1 --> S1
+    D3 --> S2
+    D2 --> S3
+    D4 --> S4
+    D5 --> S4
+    S1 --> S2
+    S2 --> S3
+    S3 --> S4
+    S4 --> S5
+    S3 --> M1
+    S3 --> M2
+    S3 --> M3
+    S3 --> M4
+    S3 --> M5
+    M1 --> RESULT
+    M2 --> RESULT
+    M3 --> RESULT
+    M4 --> RESULT
+    M5 --> RESULT
+
+    classDef cData fill:#EFE7D2,stroke:#C9A96E,stroke-width:1px,color:#5B4614
+    classDef cFlow fill:#E8F0FE,stroke:#4285F4,stroke-width:1px,color:#173A66
+    classDef cFam fill:#F3E8FD,stroke:#8E44AD,stroke-width:1px,color:#4A235A
+    classDef cOut fill:#E6F4EA,stroke:#34A853,stroke-width:1px,color:#14512B
+    class D1,D2,D3,D4,D5 cData
+    class S1,S2,S3,S4,S5 cFlow
+    class M1,M2,M3,M4,M5 cFam
+    class RESULT cOut
+```
+
+**这张图怎么看**
+
+1. **表格本身就是产品。** 21 张 CSV 表是标准，工作流只是按顺序读取它们。
+2. **同一个角色，五种方言。** 第 3 步把一段提示词改写成五个模型家族各自的写法——这就是「可适配所有模型」的实际含义。
+3. **不靠运气。** 第 4 步是硬闸门：P0 失败就等于废图，必须重做，而不是继续碰运气。
+
+📖 每个术语都用一句人话解释 → [术语表 GLOSSARY](./GLOSSARY.md)
+
 ## 快速开始
 
 1. **锚定角色** —— 在 `sheets/CharacterAnchors.csv` 中填写角色锚点（硬锚权重 ≥ 1.6，不可替换）。

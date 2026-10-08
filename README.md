@@ -55,6 +55,76 @@ adds a per-character posture-difference field for dual-character scenes.
 v2.3 (vs v2.2) adds: a domestic API-family syntax flow, a DALL·E 3 deprecation note,
 and an honest Adaptable framing.
 
+## ✦ Architecture (Plain Language)
+
+> **In one sentence:** this repo is a **control desk for AI image prompts** — 21 spreadsheet sheets that turn "hope the face comes out right" into a repeatable checklist.
+
+```mermaid
+flowchart TB
+    subgraph DATA["📚 The data standard — 21 CSV sheets (the single source of truth)"]
+        D1["Character anchors"]
+        D2["Composition &amp; shots"]
+        D3["Models &amp; references"]
+        D4["Negative word bank · checklist"]
+        D5["Storyboard · bubbles · temporal consistency"]
+    end
+
+    subgraph FLOW["🛠️ The five-step workflow"]
+        S1["1 · Anchor the character"]
+        S2["2 · Pick model + reference strategy"]
+        S3["3 · Assemble the prompt"]
+        S4["4 · Validate P0 / P1 / P2"]
+        S5["5 · Log the iteration"]
+    end
+
+    subgraph FAM["🎨 Five prompt syntax families"]
+        M1["Natural language<br/>Flux · DALL·E 3 · SD3"]
+        M2["Conversational<br/>GPT-4o · Gemini"]
+        M3["Midjourney / Niji"]
+        M4["Stable Diffusion"]
+        M5["Domestic APIs<br/>Jimeng · Kling · Doubao · Tongyi Wanxiang"]
+    end
+
+    RESULT["🖼️ Consistent characters across images, video and 3D"]
+
+    D1 --> S1
+    D3 --> S2
+    D2 --> S3
+    D4 --> S4
+    D5 --> S4
+    S1 --> S2
+    S2 --> S3
+    S3 --> S4
+    S4 --> S5
+    S3 --> M1
+    S3 --> M2
+    S3 --> M3
+    S3 --> M4
+    S3 --> M5
+    M1 --> RESULT
+    M2 --> RESULT
+    M3 --> RESULT
+    M4 --> RESULT
+    M5 --> RESULT
+
+    classDef cData fill:#EFE7D2,stroke:#C9A96E,stroke-width:1px,color:#5B4614
+    classDef cFlow fill:#E8F0FE,stroke:#4285F4,stroke-width:1px,color:#173A66
+    classDef cFam fill:#F3E8FD,stroke:#8E44AD,stroke-width:1px,color:#4A235A
+    classDef cOut fill:#E6F4EA,stroke:#34A853,stroke-width:1px,color:#14512B
+    class D1,D2,D3,D4,D5 cData
+    class S1,S2,S3,S4,S5 cFlow
+    class M1,M2,M3,M4,M5 cFam
+    class RESULT cOut
+```
+
+**How to read it**
+
+1. **The tables are the product.** The 21 CSV sheets are the standard; the workflow just reads from them in order.
+2. **Same character, five different dialects.** Step 3 is where one prompt gets re-expressed for five model families — this is what "adaptable across all models" actually means.
+3. **Nothing is left to luck.** Step 4 is a hard gate: a P0 failure is a wasted image, so you regenerate instead of hoping.
+
+📖 Every term explained in one plain sentence → [Glossary](./GLOSSARY.md)
+
 ## Quick Start
 
 1. **Anchor characters** — fill in character anchors in `sheets/CharacterAnchors.csv` (hard-anchor weight ≥ 1.6, non-replaceable).
