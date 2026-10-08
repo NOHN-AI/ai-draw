@@ -61,37 +61,26 @@ and an honest Adaptable framing.
 
 ```mermaid
 flowchart TB
-    subgraph DATA["📚 The data standard — 21 CSV sheets (the single source of truth)"]
-        D1["Character anchors"]
-        D2["Composition &amp; shots"]
-        D3["Models &amp; references"]
-        D4["Negative word bank · checklist"]
-        D5["Storyboard · bubbles · temporal consistency"]
-    end
+    WB["🌐 Cloudflare Pages workbench · www.nohnlins.com/ai-draw/<br/>drag-and-drop Word/TXT upload · comic mode · enterprise IP preset library (JSON import/export), since v2.8"]
+    DATA["📚 sheets/*.csv — 21 tables, the single source of truth<br/>CharacterAnchors · CompositionAndShots · ModelsAndReferences · Checklist · PanelLayoutRules · SpeechBubblePositioning · TemporalConsistencyChecklist · StoryboardSkeletonTemplate · GenerationIterationLog …"]
 
-    subgraph FLOW["🛠️ The five-step workflow"]
-        S1["1 · Anchor the character"]
-        S2["2 · Pick model + reference strategy"]
-        S3["3 · Assemble the prompt"]
-        S4["4 · Validate P0 / P1 / P2"]
-        S5["5 · Log the iteration"]
-    end
+    S1["① sheets/CharacterAnchors.csv<br/>anchor the character — hard-anchor weight ≥ 1.6, never replaceable"]
+    S2["② sheets/ModelsAndReferences.csv + ReferenceImageCapabilityMatrix.csv<br/>pick the model and the reference-image strategy"]
+    S3["③ sheets/NaturalLanguagePromptTemplate.csv<br/>assemble character + scene into one prompt"]
+    S4["④ sheets/Checklist.csv<br/>P0 / P1 / P2 validation — P0 is the hard gate"]
+    S5["⑤ sheets/GenerationIterationLog.csv<br/>log every iteration and what changed"]
 
-    subgraph FAM["🎨 Five prompt syntax families"]
-        M1["Natural language<br/>Flux · DALL·E 3 · SD3"]
-        M2["Conversational<br/>GPT-4o · Gemini"]
-        M3["Midjourney / Niji"]
-        M4["Stable Diffusion"]
-        M5["Domestic APIs<br/>Jimeng · Kling · Doubao · Tongyi Wanxiang"]
-    end
+    M1["🎨 Natural-language family<br/>Flux · DALL·E 3 · SD3"]
+    M2["💬 Conversational family<br/>GPT-4o · Gemini"]
+    M3["🐇 Midjourney / Niji"]
+    M4["🧩 Stable Diffusion"]
+    M5["🇨🇳 Domestic APIs<br/>Jimeng · Kling · Doubao · Tongyi Wanxiang"]
 
-    RESULT["🖼️ Consistent characters across images, video and 3D"]
+    EX["📄 examples/nanwang_spring_garden_prompt.md<br/>a complete example prompt you can copy"]
+    RESULT["🖼️ One character that stays consistent across images, video and 3D"]
 
-    D1 --> S1
-    D3 --> S2
-    D2 --> S3
-    D4 --> S4
-    D5 --> S4
+    WB --> S1
+    DATA --> S1
     S1 --> S2
     S2 --> S3
     S3 --> S4
@@ -106,22 +95,25 @@ flowchart TB
     M3 --> RESULT
     M4 --> RESULT
     M5 --> RESULT
+    EX --> S3
 
-    classDef cData fill:#EFE7D2,stroke:#C9A96E,stroke-width:1px,color:#5B4614
-    classDef cFlow fill:#E8F0FE,stroke:#4285F4,stroke-width:1px,color:#173A66
-    classDef cFam fill:#F3E8FD,stroke:#8E44AD,stroke-width:1px,color:#4A235A
+    classDef cUp fill:#F5F5F5,stroke:#9E9E9E,stroke-width:1px,color:#424242
+    classDef cIn fill:#E8F0FE,stroke:#4285F4,stroke-width:1px,color:#173A66
+    classDef cCore fill:#FFF8E1,stroke:#C9A96E,stroke-width:1px,color:#5B4614
+    classDef cSide fill:#F3E8FD,stroke:#8E44AD,stroke-width:1px,color:#4A235A
     classDef cOut fill:#E6F4EA,stroke:#34A853,stroke-width:1px,color:#14512B
-    class D1,D2,D3,D4,D5 cData
-    class S1,S2,S3,S4,S5 cFlow
-    class M1,M2,M3,M4,M5 cFam
+    class WB,DATA cIn
+    class S1,S2,S3,S4,S5 cCore
+    class M1,M2,M3,M4,M5 cUp
+    class EX cSide
     class RESULT cOut
 ```
 
 **How to read it**
 
-1. **The tables are the product.** The 21 CSV sheets are the standard; the workflow just reads from them in order.
-2. **Same character, five different dialects.** Step 3 is where one prompt gets re-expressed for five model families — this is what "adaptable across all models" actually means.
-3. **Nothing is left to luck.** Step 4 is a hard gate: a P0 failure is a wasted image, so you regenerate instead of hoping.
+1. **Read top to bottom: data in, one character out.** The 21 CSV tables and the online workbench are the two entries; the five-step workflow consumes them and hands one prompt to five model families, and all five should return the same character.
+2. **Every box names the real file or table.** `CharacterAnchors.csv`, `ModelsAndReferences.csv`, `NaturalLanguagePromptTemplate.csv`, `Checklist.csv`, `GenerationIterationLog.csv` — open the `sheets/` folder and read along.
+3. **The boundary that matters.** The tables *are* the product; step 4 is a hard gate — a P0 failure is a wasted image, so you regenerate instead of hoping.
 
 📖 Every term explained in one plain sentence → [Glossary](./GLOSSARY.md)
 

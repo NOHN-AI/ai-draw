@@ -34,37 +34,26 @@ v2.3（相对 v2.2）新增：国内 API 族语法流、DALL·E 3 弃用说明�
 
 ```mermaid
 flowchart TB
-    subgraph DATA["📚 数据标准 —— 21 张 CSV 表（唯一事实来源）"]
-        D1["角色锚点"]
-        D2["构图与镜头"]
-        D3["模型与参考"]
-        D4["负面词库 · 校验清单"]
-        D5["分镜 · 气泡 · 时序一致性"]
-    end
+    WB["🌐 Cloudflare Pages 在线工作台 · www.nohnlins.com/ai-draw/<br/>拖拽 Word/TXT 上传 · 漫画模式 · 企业 IP 预设库 JSON 导入导出（v2.8 起）"]
+    DATA["📚 sheets/*.csv —— 21 张数据表，唯一事实来源<br/>CharacterAnchors · CompositionAndShots · ModelsAndReferences · Checklist · PanelLayoutRules · SpeechBubblePositioning · TemporalConsistencyChecklist · StoryboardSkeletonTemplate · GenerationIterationLog …"]
 
-    subgraph FLOW["🛠️ 五步工作流"]
-        S1["1 · 锚定角色"]
-        S2["2 · 选模型 + 参考策略"]
-        S3["3 · 拼装提示词"]
-        S4["4 · P0 / P1 / P2 校验"]
-        S5["5 · 记录迭代"]
-    end
+    S1["① sheets/CharacterAnchors.csv<br/>锚定角色 —— 硬锚权重 ≥ 1.6，永不替换"]
+    S2["② sheets/ModelsAndReferences.csv + ReferenceImageCapabilityMatrix.csv<br/>选模型 + 参考图策略"]
+    S3["③ sheets/NaturalLanguagePromptTemplate.csv<br/>把角色和场景拼装成一段提示词"]
+    S4["④ sheets/Checklist.csv<br/>P0 / P1 / P2 校验 —— P0 是硬闸门"]
+    S5["⑤ sheets/GenerationIterationLog.csv<br/>记录每一轮迭代改了什么"]
 
-    subgraph FAM["🎨 五种提示词语法家族"]
-        M1["自然语言流<br/>Flux · DALL·E 3 · SD3"]
-        M2["对话式<br/>GPT-4o · Gemini"]
-        M3["Midjourney / Niji"]
-        M4["Stable Diffusion"]
-        M5["国内 API<br/>即梦 · 可灵 · 豆包 · 通义万相"]
-    end
+    M1["🎨 自然语言流<br/>Flux · DALL·E 3 · SD3"]
+    M2["💬 对话式<br/>GPT-4o · Gemini"]
+    M3["🐇 Midjourney / Niji"]
+    M4["🧩 Stable Diffusion"]
+    M5["🇨🇳 国内 API<br/>即梦 · 可灵 · 豆包 · 通义万相"]
 
-    RESULT["🖼️ 跨图片 / 视频 / 3D 都稳定的同一角色"]
+    EX["📄 examples/nanwang_spring_garden_prompt.md<br/>一份可以直接照抄的完整示例提示词"]
+    RESULT["🖼️ 跨图片 / 视频 / 3D 都保持一致的同一个角色"]
 
-    D1 --> S1
-    D3 --> S2
-    D2 --> S3
-    D4 --> S4
-    D5 --> S4
+    WB --> S1
+    DATA --> S1
     S1 --> S2
     S2 --> S3
     S3 --> S4
@@ -79,22 +68,25 @@ flowchart TB
     M3 --> RESULT
     M4 --> RESULT
     M5 --> RESULT
+    EX --> S3
 
-    classDef cData fill:#EFE7D2,stroke:#C9A96E,stroke-width:1px,color:#5B4614
-    classDef cFlow fill:#E8F0FE,stroke:#4285F4,stroke-width:1px,color:#173A66
-    classDef cFam fill:#F3E8FD,stroke:#8E44AD,stroke-width:1px,color:#4A235A
+    classDef cUp fill:#F5F5F5,stroke:#9E9E9E,stroke-width:1px,color:#424242
+    classDef cIn fill:#E8F0FE,stroke:#4285F4,stroke-width:1px,color:#173A66
+    classDef cCore fill:#FFF8E1,stroke:#C9A96E,stroke-width:1px,color:#5B4614
+    classDef cSide fill:#F3E8FD,stroke:#8E44AD,stroke-width:1px,color:#4A235A
     classDef cOut fill:#E6F4EA,stroke:#34A853,stroke-width:1px,color:#14512B
-    class D1,D2,D3,D4,D5 cData
-    class S1,S2,S3,S4,S5 cFlow
-    class M1,M2,M3,M4,M5 cFam
+    class WB,DATA cIn
+    class S1,S2,S3,S4,S5 cCore
+    class M1,M2,M3,M4,M5 cUp
+    class EX cSide
     class RESULT cOut
 ```
 
 **这张图怎么看**
 
-1. **表格本身就是产品。** 21 张 CSV 表是标准，工作流只是按顺序读取它们。
-2. **同一个角色，五种方言。** 第 3 步把一段提示词改写成五个模型家族各自的写法——这就是「可适配所有模型」的实际含义。
-3. **不靠运气。** 第 4 步是硬闸门：P0 失败就等于废图，必须重做，而不是继续碰运气。
+1. **从上往下读：数据进来，同一个角色出去。** 21 张 CSV 表和在线工作台是两个入口；五步工作流消化它们，把一段提示词交给五个模型家族，五个家族应该还回同一个角色。
+2. **每个框都写了真实文件或表名。** `CharacterAnchors.csv`、`ModelsAndReferences.csv`、`NaturalLanguagePromptTemplate.csv`、`Checklist.csv`、`GenerationIterationLog.csv`——打开 `sheets/` 目录可以对照着读。
+3. **真正要紧的边界。** 表格本身就是产品；第 4 步是硬闸门——P0 失败就等于废图，必须重做，而不是继续碰运气。
 
 📖 每个术语都用一句人话解释 → [术语表 GLOSSARY](./GLOSSARY.md)
 
