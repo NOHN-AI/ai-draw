@@ -37,6 +37,34 @@
 
 ---
 
+## ✦ English Glossary
+
+*Every term explained in one plain sentence.*
+
+| Term | Plain meaning |
+|---|---|
+| **Prompt** | The description text you write for an AI image model. |
+| **Cue-word engineering** | Using reusable word lists plus weighting rules to control the output, instead of hoping each time. |
+| **Prompt syntax family** | The five families of model syntax: natural-language flow / conversational / Midjourney / Stable Diffusion / domestic APIs. |
+| **Hard anchor** | A fixed feature that must never change (e.g. the mole under the left eye), weight ≥ 1.6. |
+| **Core feature** | A feature to keep in every scene, weight 1.3–1.5. |
+| **Baseline** | The default-strength part of the description, weight 1.0–1.2. |
+| **Weight** | The number controlling a word's influence — the larger it is, the less the model dares ignore it. |
+| **Negative prompt** | What you don't want; note that FLUX.2 and Gemini 3 Pro don't support it at all, so you must phrase things positively. |
+| **Reference image** | An image you give the model so it follows a certain identity or style. |
+| **LoRA** | A tens-of-MB "character / style patch" you attach to SD to reproduce the same character reliably. |
+| **`--cref` / `--oref`** | Midjourney's character-reference parameters; the name differs by version (v6 uses `--cref`, v7 uses `--oref`). |
+| **Multi-character scene** | Three or more characters in one frame, needing a spatial-relation table to constrain layering, gaze chains and occlusion. |
+| **Storyboard / panel** | One frame of a comic; the storyboard skeleton defines what narrative job each frame carries. |
+| **Speech bubble** | The dialogue box; type, tail direction and layer priority all follow rules. |
+| **Temporal consistency** | Between two consecutive images, character, clothing and lighting must not change. |
+| **P0 / P1 / P2** | Check priorities: a P0 error ruins the image and must be redone; P1 hurts usability and is fixed first; P2 is logged and improved next round. |
+| **Iteration log** | One entry per generation; three consecutive failures of the same type means switching model or parameter route. |
+| **Aspect-ratio baseline** | The head-to-body ratio standard for each style (chibi 2–3, realistic 7.5+), tolerance ≤ 5%. |
+| **Cloudflare Pages workbench** | www.nohnlins.com/ai-draw/ — turns the CSV data standard into an interactive generation interface. |
+
+---
+
 <div align="center">
 
 [← 返回 README](./README.md) &nbsp;·&nbsp; [中文说明](./README-zh.md)
